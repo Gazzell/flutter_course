@@ -8,7 +8,10 @@ class NavigationToDoCubit extends Cubit<NavigationToDoCubitState> {
   NavigationToDoCubit() : super(const NavigationToDoCubitState());
 
   void selectedToDoCollectionChanged(CollectionId collectionId) {
-    emit(NavigationToDoCubitState(selectedToDoCollectionId: collectionId));
+    emit(NavigationToDoCubitState(
+      selectedToDoCollectionId: collectionId,
+      isCreatingItem: false,
+    ));
   }
 
   void secondBodyHasChanged({required bool isSecondBodyDisplayed}) {
@@ -17,8 +20,16 @@ class NavigationToDoCubit extends Cubit<NavigationToDoCubitState> {
         NavigationToDoCubitState(
           isSecondBodyDisplayed: isSecondBodyDisplayed,
           selectedToDoCollectionId: state.selectedToDoCollectionId,
+          isCreatingItem: state.isCreatingItem,
         ),
       );
     }
+  }
+
+  void addToDoEntryItem() {
+    emit(NavigationToDoCubitState(
+      selectedToDoCollectionId: state.selectedToDoCollectionId,
+      isCreatingItem: true,
+    ));
   }
 }

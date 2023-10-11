@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/1_domain/entities/unique_id.dart';
 import 'package:todo_app/2_application/core/go_router_observer.dart';
 import 'package:todo_app/2_application/pages/create_todo_collection/create_todo_collection_page.dart';
+import 'package:todo_app/2_application/pages/create_todo_entry_item/crete_todo_entry_item_page.dart';
 import 'package:todo_app/2_application/pages/dashboard/dashboard_page.dart';
 import 'package:todo_app/2_application/pages/detail/detail_page.dart';
 import 'package:todo_app/2_application/pages/home/cubit/navigation_to_do_cubit.dart';
@@ -70,8 +71,8 @@ final routes = GoRouter(
       path: '$_basePath/overview/:collectionId',
       builder: (context, state) =>
           BlocListener<NavigationToDoCubit, NavigationToDoCubitState>(
-        listenWhen: (previous, current) => previous.isSecondBodyDisplayed !=
-              current.isSecondBodyDisplayed,
+        listenWhen: (previous, current) =>
+            previous.isSecondBodyDisplayed != current.isSecondBodyDisplayed,
         listener: (context, state) {
           if (context.canPop() && (state.isSecondBodyDisplayed ?? false)) {
             context.pop();
@@ -98,6 +99,24 @@ final routes = GoRouter(
                 state.pathParameters['collectionId']!,
               ),
             )),
+      ),
+    ),
+    GoRoute(
+      name: CreateToDoEntryItemPage.pageConfig.name,
+      path: '$_basePath/overview/:collectionId/add',
+      builder: (context, state) =>
+          BlocListener<NavigationToDoCubit, NavigationToDoCubitState>(
+        listenWhen: (previous, current) =>
+            previous.isSecondBodyDisplayed != current.isSecondBodyDisplayed,
+        listener: (context, state) {
+          if (context.canPop() && (state.isSecondBodyDisplayed ?? false)) {
+            context.pop();
+          }
+        },
+        child: CreateToDoEntryItemPage(
+          collectionId: CollectionId.fromUniqueString(
+              state.pathParameters['collectionId']!),
+        ),
       ),
     ),
     GoRoute(
