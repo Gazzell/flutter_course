@@ -62,10 +62,18 @@ class _CreateToDoEntryItemPageState extends State<CreateToDoEntryItemPage> {
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Description'),
                 onChanged: (value) {},
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please, enter a description!';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _formKey.currentState?.validate();
+                },
                 child: const Text('Add'),
               ),
             ],
