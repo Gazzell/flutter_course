@@ -63,7 +63,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
         child: AdaptiveLayout(
@@ -84,15 +83,6 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () =>
                         context.pushNamed(SettingsPage.pageConfig.name),
                     icon: Icon(SettingsPage.pageConfig.icon),
-                  ),
-                  selectedLabelTextStyle: TextStyle(
-                    color: theme.colorScheme.onBackground,
-                  ),
-                  selectedIconTheme: IconThemeData(
-                    color: theme.colorScheme.onBackground,
-                  ),
-                  unselectedIconTheme: IconThemeData(
-                    color: theme.colorScheme.onBackground.withOpacity(0.5),
                   ),
                   destinations: destinations
                       .map(
