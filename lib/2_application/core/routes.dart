@@ -113,9 +113,10 @@ final routes = GoRouter(
             context.pop();
           }
         },
-        child: CreateToDoEntryItemPage(
+        child: CreateToDoEntryItemPageProvider(
           collectionId: CollectionId.fromUniqueString(
-              state.pathParameters['collectionId']!),
+            state.pathParameters['collectionId']!,
+          ),
         ),
       ),
     ),

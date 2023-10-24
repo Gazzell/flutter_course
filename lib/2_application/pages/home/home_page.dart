@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                               return const Placeholder();
                             }
                             if (state.isCreatingItem == true) {
-                              return CreateToDoEntryItemPage(collectionId: selectedToDoCollectionId);
+                              return CreateToDoEntryItemPageProvider(collectionId: selectedToDoCollectionId);
                             }
                             return DetailPageProvider(
                               key: Key(selectedToDoCollectionId.value),

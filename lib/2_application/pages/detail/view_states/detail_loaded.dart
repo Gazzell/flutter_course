@@ -41,9 +41,7 @@ class DetailLoaded extends StatelessWidget {
                     pathParameters: {'collectionId': collectionId.value},
                   );
                 } else {
-                  context
-                    .read<NavigationToDoCubit>()
-                    .addToDoEntryItem();
+                  context.read<NavigationToDoCubit>().addToDoEntryItem();
                 }
               },
               icon: const Icon(Icons.add_rounded),
