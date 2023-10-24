@@ -20,6 +20,7 @@ class DetailLoaded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final detailCubit = context.read<DetailCubit>();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -35,13 +36,15 @@ class DetailLoaded extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 if (Breakpoints.small.isActive(context)) {
-                  context.pushNamed(
+                  final result = await context.pushNamed(
                     CreateToDoEntryItemPage.pageConfig.name,
                     pathParameters: {'collectionId': collectionId.value},
-                    extra: context.read<DetailCubit>().readToDoDetail,
                   );
+                  if (result == true) {
+                    detailCubit.readToDoDetail();
+                  }
                 } else {
                   context.read<NavigationToDoCubit>().addToDoEntryItem();
                 }

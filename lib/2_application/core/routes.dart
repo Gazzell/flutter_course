@@ -117,8 +117,6 @@ final routes = GoRouter(
           collectionId: CollectionId.fromUniqueString(
             state.pathParameters['collectionId']!,
           ),
-          updateCollectionCallback:
-              state.extra == null ? () {} : state.extra as Function,
         ),
       ),
     ),
