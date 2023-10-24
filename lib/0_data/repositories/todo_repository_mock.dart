@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:either_dart/either.dart';
 import 'package:todo_app/1_domain/entities/todo_collection.dart';
@@ -50,9 +49,6 @@ class ToDoRepositoryMock implements ToDoRepository {
     EntryId entryId,
   ) {
     try {
-      if (Random().nextInt(10) > 7) {
-        throw (Exception('Loading error'));
-      }
       final toDoEntry =
           toDoEntries.firstWhere((element) => element.id == entryId);
       return Future.delayed(

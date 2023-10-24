@@ -11,11 +11,16 @@ import 'package:todo_app/2_application/pages/create_todo_entry_item/cubit/create
 import 'package:todo_app/2_application/pages/detail/detail_page.dart';
 import 'package:todo_app/2_application/pages/home/cubit/navigation_to_do_cubit.dart';
 
+typedef CollectionUpdateCallback = Function;
+
 class CreateToDoEntryItemPageProvider extends StatelessWidget {
   final CollectionId collectionId;
+  final CollectionUpdateCallback updateCollectionCallback;
+
   const CreateToDoEntryItemPageProvider({
     super.key,
     required this.collectionId,
+    required this.updateCollectionCallback,
   });
 
   @override
@@ -27,13 +32,17 @@ class CreateToDoEntryItemPageProvider extends StatelessWidget {
           toDoRepository: RepositoryProvider.of<ToDoRepository>(context),
         ),
       ),
-      child: const CreateToDoEntryItemPage(),
+      child: CreateToDoEntryItemPage(
+        updateCollectionCallback: updateCollectionCallback,
+      ),
     );
   }
 }
 
 class CreateToDoEntryItemPage extends StatefulWidget {
-  const CreateToDoEntryItemPage({super.key});
+  final Function updateCollectionCallback;
+  const CreateToDoEntryItemPage(
+      {super.key, required this.updateCollectionCallback});
 
   static const pageConfig = PageConfig(
     icon: Icons.add_rounded,
@@ -62,6 +71,8 @@ class _CreateToDoEntryItemPageState extends State<CreateToDoEntryItemPage> {
             .selectedToDoCollectionChanged(collectionId);
         return;
       }
+
+      widget.updateCollectionCallback();
       if (context.canPop()) {
         context.pop();
       } else {
