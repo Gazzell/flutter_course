@@ -5,7 +5,6 @@ import 'package:todo_app/1_domain/entities/unique_id.dart';
 import 'package:todo_app/1_domain/use_cases/create_todo_entry_item.dart';
 import 'package:todo_app/2_application/core/form_value.dart';
 import 'package:todo_app/core/use_case.dart';
-// import 'package:todo_app/core/use_case.dart';
 
 part 'create_to_do_entry_item_state.dart';
 
@@ -33,11 +32,10 @@ class CreateToDoEntryItemCubit extends Cubit<CreateToDoEntryItemState> {
   }
 
   Future<void> submit() async {
-    // await createToDoEntryItem.call(ToDoEntryParams(entry: ))
     createToDoEntryItem.call(
       ToDoEntryParams(
+        collectionId: collectionId,
         entry: ToDoEntry.empty().copyWith(
-          collectionId: collectionId,
           description: state.description?.value,
         ),
       ),

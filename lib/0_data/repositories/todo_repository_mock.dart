@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:either_dart/either.dart';
+import 'package:todo_app/0_data/exceptions/exceptions.dart';
 import 'package:todo_app/1_domain/entities/todo_collection.dart';
 import 'package:todo_app/1_domain/entities/todo_color.dart';
 import 'package:todo_app/1_domain/entities/todo_entry.dart';
@@ -9,17 +10,6 @@ import 'package:todo_app/1_domain/failures/failures.dart';
 import 'package:todo_app/1_domain/repositories/todo_repository.dart';
 
 class ToDoRepositoryMock implements ToDoRepository {
-  final List<ToDoEntry> toDoEntries = List.generate(
-    100,
-    (index) => ToDoEntry(
-      id: EntryId.fromUniqueString(index.toString()),
-      description: 'entry $index',
-      isDone: false,
-      collectionId:
-          CollectionId.fromUniqueString((index / 10).floor().toString()),
-    ),
-  );
-
   final toDoCollections = List<ToDoCollection>.generate(
     10,
     (index) => ToDoCollection(
@@ -30,6 +20,22 @@ class ToDoRepositoryMock implements ToDoRepository {
       ),
     ),
   );
+
+  final Map<String, List<ToDoEntry>> toDoEntries = {};
+
+  ToDoRepositoryMock() {
+    for (final (index, _) in toDoCollections.indexed) {
+      final mapIndex = index.toString();
+      toDoEntries[mapIndex] = List<ToDoEntry>.generate(
+        10,
+        (entryIndex) => ToDoEntry(
+          id: EntryId.fromUniqueString((entryIndex + 10 * index).toString()),
+          description: 'entry ${entryIndex + 10 * index}',
+          isDone: false,
+        ),
+      );
+    }
+  }
 
   @override
   Future<Either<Failure, List<ToDoCollection>>> readTodoCollections() {
@@ -49,8 +55,14 @@ class ToDoRepositoryMock implements ToDoRepository {
     EntryId entryId,
   ) {
     try {
-      final toDoEntry =
-          toDoEntries.firstWhere((element) => element.id == entryId);
+      final toDoEntry = toDoEntries[collectionId.value]
+          ?.firstWhere((element) => element.id == entryId);
+      if (toDoEntry == null) {
+        throw EntryNotFoundException(
+          entryId: entryId.value,
+          collectionId: collectionId.value,
+        );
+      }
       return Future.delayed(
         const Duration(milliseconds: 100),
         () => Right(toDoEntry),
@@ -64,12 +76,11 @@ class ToDoRepositoryMock implements ToDoRepository {
   Future<Either<Failure, List<EntryId>>> readTodoEntriesCollection(
       CollectionId collectionId) {
     try {
-      final entryIds = toDoEntries
-          .where(
-            (entry) => entry.collectionId == collectionId,
-          )
-          .map((entry) => entry.id)
-          .toList();
+      if (!toDoEntries.containsKey(collectionId.value)) {
+        throw CollectionNotFoundException(collectionId: collectionId.value);
+      }
+      final entryIds =
+          toDoEntries[collectionId.value]!.map((entry) => entry.id).toList();
 
       return Future.delayed(
         const Duration(milliseconds: 300),
@@ -87,10 +98,14 @@ class ToDoRepositoryMock implements ToDoRepository {
     bool isDone,
   ) {
     try {
-      final index = toDoEntries.indexWhere((element) => element.id == entryId);
-      final entryToUpdate = toDoEntries[index];
+      if (!toDoEntries.containsKey(collectionId.value)) {
+        throw CollectionNotFoundException(collectionId: collectionId.value);
+      }
+      final index = toDoEntries[collectionId.value]!
+          .indexWhere((element) => element.id == entryId);
+      final entryToUpdate = toDoEntries[collectionId.value]![index];
       final updatedEntry = entryToUpdate.copyWith(isDone: isDone);
-      toDoEntries[index] = updatedEntry;
+      toDoEntries[collectionId.value]![index] = updatedEntry;
 
       return Future.delayed(
         const Duration(milliseconds: 200),
@@ -106,7 +121,7 @@ class ToDoRepositoryMock implements ToDoRepository {
       ToDoCollection collection) {
     try {
       toDoCollections.add(collection);
-
+      toDoEntries[collection.id.value] = [];
       return Future.delayed(
         const Duration(milliseconds: 200),
         () => const Right(true),
@@ -120,7 +135,10 @@ class ToDoRepositoryMock implements ToDoRepository {
   Future<Either<Failure, bool>> createTodoEntryItem(
       CollectionId collectionId, ToDoEntry entry) {
     try {
-      toDoEntries.add(entry);
+      if (!toDoEntries.containsKey(collectionId.value)) {
+        toDoEntries[collectionId.value] = [];
+      }
+      toDoEntries[collectionId.value]!.add(entry);
       return Future.delayed(
         const Duration(milliseconds: 100),
         () => const Right(true),
