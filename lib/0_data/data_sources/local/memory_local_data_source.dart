@@ -99,6 +99,7 @@ class MemoryLocalDataSource implements ToDoLocalSourceInterface {
   Future<ToDoEntryModel> updateToDoEntry({
     required String collectionId,
     required String entryId,
+    required bool isDone,
   }) {
     try {
       if (!toDoEntries.containsKey(collectionId)) {
@@ -117,7 +118,7 @@ class MemoryLocalDataSource implements ToDoLocalSourceInterface {
       final updatedEntry = ToDoEntryModel(
         id: entryId,
         description: toDoEntry.description,
-        isDone: !toDoEntry.isDone,
+        isDone: isDone,
       );
 
       toDoEntries[collectionId]![entryIndex] = updatedEntry;

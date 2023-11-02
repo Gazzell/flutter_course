@@ -23,5 +23,6 @@ abstract class ToDoLocalSourceInterface {
   Future<ToDoEntryModel> updateToDoEntry({
     required String collectionId,
     required String entryId,
+    required bool isDone,
   });
 }
