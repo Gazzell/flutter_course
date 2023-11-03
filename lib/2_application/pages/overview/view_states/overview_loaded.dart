@@ -6,6 +6,7 @@ import 'package:todo_app/1_domain/entities/todo_collection.dart';
 import 'package:todo_app/2_application/pages/create_todo_collection/create_todo_collection_page.dart';
 import 'package:todo_app/2_application/pages/detail/detail_page.dart';
 import 'package:todo_app/2_application/pages/home/cubit/navigation_to_do_cubit.dart';
+import 'package:todo_app/2_application/pages/overview/bloc/overview_cubit.dart';
 
 class OverviewLoaded extends StatelessWidget {
   final List<ToDoCollection> collections;
@@ -15,7 +16,6 @@ class OverviewLoaded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final shouldDisplayAddItemButton = Breakpoints.small.isActive(context);
     return Stack(
       children: [
         ListView.builder(
@@ -51,20 +51,26 @@ class OverviewLoaded extends StatelessWidget {
             );
           },
         ),
-        if (shouldDisplayAddItemButton)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                key: const Key('create-todo-collection'),
-                heroTag: 'create-todo-collection',
-                onPressed: () =>
-                    context.pushNamed(CreateToDoCollectionPage.pageConfig.name),
-                child: Icon(CreateToDoCollectionPage.pageConfig.icon),
-              ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              key: const Key('create-todo-collection'),
+              heroTag: 'create-todo-collection',
+              onPressed: () async {
+                context
+                    .pushNamed(CreateToDoCollectionPage.pageConfig.name)
+                    .then((value) {
+                  if (value == true) {
+                    context.read<OverviewCubit>().readToDoCollections();
+                  }
+                });
+              },
+              child: Icon(CreateToDoCollectionPage.pageConfig.icon),
             ),
-          )
+          ),
+        )
       ],
     );
   }

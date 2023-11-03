@@ -82,8 +82,9 @@ class _CreateToDoCollectionPageState extends State<CreateToDoCollectionPage> {
               onPressed: () {
                 final isValid = _formKey.currentState?.validate();
                 if (isValid == true) {
-                  context.read<CreateToDoCollectionCubit>().submit();
-                  context.pop();
+                  context.read<CreateToDoCollectionCubit>().submit().then(
+                        (value) => context.pop(true),
+                      );
                 }
               },
               child: const Text('Save Collection'),

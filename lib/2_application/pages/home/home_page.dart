@@ -3,7 +3,6 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/2_application/core/page_config.dart';
-import 'package:todo_app/2_application/pages/create_todo_collection/create_todo_collection_page.dart';
 import 'package:todo_app/2_application/pages/create_todo_entry_item/crete_todo_entry_item_page.dart';
 import 'package:todo_app/2_application/pages/dashboard/dashboard_page.dart';
 import 'package:todo_app/2_application/pages/detail/detail_page.dart';
@@ -71,14 +70,6 @@ class _HomePageState extends State<HomePage> {
               Breakpoints.mediumAndUp: SlotLayout.from(
                 key: const Key('primary-navigation-medium'),
                 builder: (context) => AdaptiveScaffold.standardNavigationRail(
-                  leading: IconButton(
-                    onPressed: () {
-                      context
-                          .pushNamed(CreateToDoCollectionPage.pageConfig.name);
-                    },
-                    icon: Icon(CreateToDoCollectionPage.pageConfig.icon),
-                    tooltip: 'Add Collection',
-                  ),
                   trailing: IconButton(
                     onPressed: () =>
                         context.pushNamed(SettingsPage.pageConfig.name),
@@ -140,7 +131,8 @@ class _HomePageState extends State<HomePage> {
                               return const Placeholder();
                             }
                             if (state.isCreatingItem == true) {
-                              return CreateToDoEntryItemPageProvider(collectionId: selectedToDoCollectionId);
+                              return CreateToDoEntryItemPageProvider(
+                                  collectionId: selectedToDoCollectionId);
                             }
                             return DetailPageProvider(
                               key: Key(selectedToDoCollectionId.value),
