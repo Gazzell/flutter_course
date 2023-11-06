@@ -51,7 +51,7 @@ class ToDoRepositoryLocal implements ToDoRepository {
       final collectionIds = await localDataSource.getCollectionIds();
       final List<ToDoCollection> collections = [];
 
-      Future.forEach(collectionIds, (collectionId) async {
+      final _ = await Future.forEach(collectionIds, (collectionId) async {
         final collection = await localDataSource.getToDoCollection(
           collectionId: collectionId,
         );
