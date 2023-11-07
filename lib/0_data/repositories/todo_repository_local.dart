@@ -121,6 +121,22 @@ class ToDoRepositoryLocal implements ToDoRepository {
     }
   }
 
+    
+  @override
+  Future<Either<Failure, bool>> removeTodoEntry(CollectionId collectionId, EntryId entryId) async {
+    try {
+      final result = await localDataSource.removeToDoEntry(
+        collectionId: collectionId.value,
+        entryId: entryId.value,
+      );
+      return Future.value(Right(result));
+    } on CacheException catch (e) {
+      return Future.value(Left(CacheFailure(stackTrace: e.toString())));
+    } on Exception catch (e) {
+      return Future.value(Left(ServerFailure(stackTrace: e.toString())));
+    }
+  }
+
   ToDoEntryModel toDoEntryToModel(ToDoEntry entry) {
     return ToDoEntryModel(
       id: entry.id.value,

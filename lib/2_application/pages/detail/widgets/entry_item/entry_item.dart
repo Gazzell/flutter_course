@@ -12,10 +12,12 @@ import 'package:todo_app/2_application/pages/detail/widgets/entry_item/view_stat
 class DetailEntryProvider extends StatelessWidget {
   final CollectionId collectionId;
   final EntryId entryId;
+  final Function() onRemoved;
   const DetailEntryProvider({
     super.key,
     required this.collectionId,
     required this.entryId,
+    required this.onRemoved,
   });
 
   @override
@@ -35,6 +37,7 @@ class DetailEntryProvider extends StatelessWidget {
       child: EntryItem(
         collectionId: collectionId,
         entryId: entryId,
+        onRemoved: onRemoved,
       ),
     );
   }
@@ -43,10 +46,12 @@ class DetailEntryProvider extends StatelessWidget {
 class EntryItem extends StatelessWidget {
   final EntryId entryId;
   final CollectionId collectionId;
+  final Function() onRemoved;
   const EntryItem({
     super.key,
     required this.collectionId,
     required this.entryId,
+    required this.onRemoved,
   });
 
   _getOnEntryDoneChanged(BuildContext context) {
@@ -65,6 +70,7 @@ class EntryItem extends StatelessWidget {
           return DetailEntryLoaded(
             entry: state.entry,
             onDoneChanged: _getOnEntryDoneChanged(context),
+            onRemoved: onRemoved,
           );
         }
         return DetailEntryError(onClicked: () {

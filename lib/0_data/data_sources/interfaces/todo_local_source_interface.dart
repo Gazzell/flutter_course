@@ -25,4 +25,9 @@ abstract class ToDoLocalSourceInterface {
     required String entryId,
     required bool isDone,
   });
+
+  Future<bool> removeToDoEntry({
+    required String collectionId,
+    required String entryId,
+  });
 }

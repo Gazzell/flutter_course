@@ -28,4 +28,9 @@ abstract class ToDoRepository {
     CollectionId collectionId,
     ToDoEntry entry,
   );
+
+  Future<Either<Failure, bool>> removeTodoEntry(
+    CollectionId collectionId,
+    EntryId entryId,
+  );
 }

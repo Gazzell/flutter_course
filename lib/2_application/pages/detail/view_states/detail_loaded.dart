@@ -30,8 +30,11 @@ class DetailLoaded extends StatelessWidget {
               child: ListView.builder(
                 itemCount: entryIds.length,
                 itemBuilder: (context, index) => DetailEntryProvider(
+                  key: Key('entry-${entryIds[index].value}'),
                   collectionId: collectionId,
                   entryId: entryIds[index],
+                  onRemoved: () =>
+                      detailCubit.removeToDoDetail(entryId: entryIds[index]),
                 ),
               ),
             ),

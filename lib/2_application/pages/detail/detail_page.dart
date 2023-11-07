@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/1_domain/entities/unique_id.dart';
 import 'package:todo_app/1_domain/repositories/todo_repository.dart';
 import 'package:todo_app/1_domain/use_cases/load_todo_entries_collection.dart';
+import 'package:todo_app/1_domain/use_cases/remove_todo_entry.dart';
 import 'package:todo_app/2_application/core/page_config.dart';
 import 'package:todo_app/2_application/pages/detail/bloc/detail_cubit.dart';
 import 'package:todo_app/2_application/pages/detail/view_states/detail_error.dart';
@@ -19,6 +20,9 @@ class DetailPageProvider extends StatelessWidget {
       create: (context) => DetailCubit(
         collectionId: collectionId,
         loadToDoEntriesCollection: LoadToDoEntriesCollection(
+          toDoRepository: RepositoryProvider.of<ToDoRepository>(context),
+        ),
+        removeToDoEntry: RemoveToDoEntry(
           toDoRepository: RepositoryProvider.of<ToDoRepository>(context),
         ),
       )..readToDoDetail(),

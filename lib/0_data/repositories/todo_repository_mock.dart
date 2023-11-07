@@ -147,4 +147,27 @@ class ToDoRepositoryMock implements ToDoRepository {
       return Future(() => Left(ServerFailure(stackTrace: e.toString())));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> removeTodoEntry(
+      CollectionId collectionId, EntryId entryId) {
+    try {
+      if (!toDoEntries.containsKey(collectionId.value)) {
+        throw CollectionNotFoundException(collectionId: collectionId.value);
+      }
+
+      final entryIndex = toDoEntries[collectionId.value]!
+          .indexWhere((element) => element.id == entryId);
+      if (entryIndex == -1) {
+        throw EntryNotFoundException(
+            entryId: entryId.value, collectionId: collectionId.value);
+      }
+      
+      toDoEntries[collectionId.value]!.removeAt(entryIndex);
+      
+      return Future.value(const Right(true));
+    } on Exception catch (e) {
+      return Future(() => Left(ServerFailure(stackTrace: e.toString())));
+    }
+  }
 }
