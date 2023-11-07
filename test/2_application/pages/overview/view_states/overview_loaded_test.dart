@@ -12,7 +12,7 @@ void main() {
       (index) => ToDoCollection(
         id: CollectionId.fromUniqueString(index.toString()),
         title: 'title $index',
-        color: ToDoColor(colorIndex: index % ToDoColor.predefinedColors.length),
+        color: ToDoColor(value: index % ToDoColor.predefinedColors.length),
       ),
     );
   }

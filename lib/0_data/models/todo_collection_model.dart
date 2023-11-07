@@ -7,11 +7,11 @@ part 'todo_collection_model.g.dart';
 @JsonSerializable()
 class ToDoCollectionModel extends Equatable {
   final String id;
-  final int colorIndex;
+  final int value;
   final String title;
   const ToDoCollectionModel({
     required this.id,
-    required this.colorIndex,
+    required this.value,
     required this.title,
   });
 
@@ -23,10 +23,10 @@ class ToDoCollectionModel extends Equatable {
   factory ToDoCollectionModel.fromToDoCollection(ToDoCollection collection) =>
       ToDoCollectionModel(
         id: collection.id.value,
-        colorIndex: collection.color.colorIndex,
+        value: collection.color.value,
         title: collection.title,
       );
 
   @override
-  List<Object?> get props => [id, colorIndex, title];
+  List<Object?> get props => [id, value, title];
 }

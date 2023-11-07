@@ -132,7 +132,7 @@ class ToDoRepositoryLocal implements ToDoRepository {
   ToDoCollectionModel toDoCollectionToModel(ToDoCollection collection) {
     return ToDoCollectionModel(
       id: collection.id.value,
-      colorIndex: collection.color.colorIndex,
+      value: collection.color.value,
       title: collection.title,
     );
   }
@@ -150,7 +150,7 @@ class ToDoRepositoryLocal implements ToDoRepository {
     return ToDoCollection(
       id: CollectionId.fromUniqueString(collectionModel.id),
       title: collectionModel.title,
-      color: ToDoColor(colorIndex: collectionModel.colorIndex),
+      color: ToDoColor(value: collectionModel.value),
     );
   }
 }

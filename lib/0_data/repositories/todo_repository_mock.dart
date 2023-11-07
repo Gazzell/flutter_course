@@ -16,7 +16,7 @@ class ToDoRepositoryMock implements ToDoRepository {
       id: CollectionId.fromUniqueString(index.toString()),
       title: 'title $index',
       color: ToDoColor(
-        colorIndex: index % ToDoColor.predefinedColors.length,
+        value: index % ToDoColor.predefinedColors.length,
       ),
     ),
   );

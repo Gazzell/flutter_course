@@ -9,7 +9,7 @@ part of 'todo_collection_model.dart';
 ToDoCollectionModel _$ToDoCollectionModelFromJson(Map<String, dynamic> json) =>
     ToDoCollectionModel(
       id: json['id'] as String,
-      colorIndex: json['colorIndex'] as int,
+      value: json['colorIndex'] as int,
       title: json['title'] as String,
     );
 
@@ -17,6 +17,6 @@ Map<String, dynamic> _$ToDoCollectionModelToJson(
         ToDoCollectionModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'colorIndex': instance.colorIndex,
+      'colorIndex': instance.value,
       'title': instance.title,
     };

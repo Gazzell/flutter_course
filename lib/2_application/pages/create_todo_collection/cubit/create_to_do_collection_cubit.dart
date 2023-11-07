@@ -10,24 +10,23 @@ part 'create_to_do_collection_state.dart';
 class CreateToDoCollectionCubit extends Cubit<CreateToDoCollectionState> {
   final CreateToDoCollection createToDoCollection;
 
-  CreateToDoCollectionCubit({required this.createToDoCollection})
-      : super(const CreateToDoCollectionState());
+  CreateToDoCollectionCubit({required this.createToDoCollection, required int initialColor})
+      : super(CreateToDoCollectionState(color: initialColor));
 
   void titleChanged(String title) {
     emit(state.copyWith(title: title));
   }
 
-  void colorChanged(String color) {
+  void colorChanged(int color) {
     emit(state.copyWith(color: color));
   }
 
   Future<void> submit() async {
-    final parsedColor = int.tryParse(state.color ?? '') ?? 0;
     await createToDoCollection.call(
       ToDoCollectionParams(
         collection: ToDoCollection.empty().copyWith(
           title: state.title,
-          color: ToDoColor(colorIndex: parsedColor),
+          color: ToDoColor(value: state.color),
         ),
       ),
     );

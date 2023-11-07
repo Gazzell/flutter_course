@@ -24,7 +24,7 @@ void main() {
             id: CollectionId.fromUniqueString('id $index'),
             title: 'title $index',
             color: ToDoColor(
-              colorIndex: index % ToDoColor.predefinedColors.length,
+              value: index % ToDoColor.predefinedColors.length,
             ),
           ),
         );

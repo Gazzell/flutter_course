@@ -21,7 +21,7 @@ void main() {
         registerFallbackValue(
           const ToDoCollectionModel(
             id: '1',
-            colorIndex: 1,
+            value: 1,
             title: '',
           ),
         );
@@ -199,7 +199,7 @@ void main() {
             (invocation) => Future.value(
               const ToDoCollectionModel(
                 id: '0',
-                colorIndex: 1,
+                value: 1,
                 title: '',
               ),
             ),
@@ -217,7 +217,7 @@ void main() {
             [
               ToDoCollection(
                   id: CollectionId.fromUniqueString('0'),
-                  color: const ToDoColor(colorIndex: 1),
+                  color: const ToDoColor(value: 1),
                   title: ''),
             ],
           );

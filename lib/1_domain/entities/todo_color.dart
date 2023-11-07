@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 class ToDoColor extends Equatable {
-  final int colorIndex;
+  final int value;
 
-  const ToDoColor({required this.colorIndex});
+  const ToDoColor({required this.value});
 
   static const List<Color> predefinedColors = [
     Colors.red,
@@ -17,8 +17,8 @@ class ToDoColor extends Equatable {
     Colors.orange,
   ];
 
-  Color get color => predefinedColors[colorIndex];
+  Color get color => Color(value);
 
   @override
-  List<Object?> get props => [colorIndex];
+  List<Object?> get props => [value];
 }
